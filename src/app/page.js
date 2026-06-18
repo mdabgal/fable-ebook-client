@@ -1,10 +1,17 @@
+import FeaturedEbooks from "@/components/FeaturedEbooks";
+import Genres from "@/components/Genres";
+import Hero from "@/components/Hero";
+import TopWriters from "@/components/TopWriters";
 import Image from "next/image";
-import Hero from "./components/common/Hero";
+
 
 export default function Home() {
   return (
    <div>
-    <Hero/>
+   <Hero/>
+   <FeaturedEbooks/>
+   <TopWriters/>
+   <Genres/>
    </div>
   );
 }
