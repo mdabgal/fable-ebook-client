@@ -194,7 +194,7 @@ export default function Sidebar() {
     setMounted(true);
   }, []);
 
-  // lock scroll when mobile menu open
+  
   useEffect(() => {
     if (open) {
       document.body.style.overflow = "hidden";
@@ -224,7 +224,6 @@ export default function Sidebar() {
 
   const role = session?.user?.role || "reader";
 
-  // রোল ভিত্তিক আইকনসহ মেনু আইটেম
   const menuItems = {
     writer: [
       { name: "Dashboard Home", path: "/dashboard/writer", icon: <FaHome /> },
@@ -257,7 +256,7 @@ export default function Sidebar() {
     }
   };
 
-  // শেয়ার্ড নেভিগেশন লিংক রেন্ডারার ফাংশন
+
   const renderNavLinks = (closeMobileMenu = false) => {
     return currentMenu.map((item) => {
       const active = pathname === item.path;
@@ -283,9 +282,7 @@ export default function Sidebar() {
 
   return (
     <>
-      {/* ========================================================== */}
-      {/* 📱 MOBILE TOP NAVBAR */}
-      {/* ========================================================== */}
+    
       <header className="md:hidden fixed top-0 left-0 right-0 h-16 bg-slate-900 border-b border-slate-800 text-white flex items-center justify-between px-6 z-40">
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 rounded-lg bg-emerald-600 flex items-center justify-center font-bold text-lg text-white">F</div>
@@ -308,9 +305,7 @@ export default function Sidebar() {
         />
       )}
 
-      {/* ========================================================== */}
-      {/* 📱 MOBILE SIDEBAR DRAWER */}
-      {/* ========================================================== */}
+
       <aside
         className={`fixed top-0 left-0 h-full w-80 bg-slate-900 text-white z-50 flex flex-col justify-between transform transition-transform duration-300 ease-in-out border-r border-slate-800 md:hidden
         ${open ? "translate-x-0" : "-translate-x-full"}`}
@@ -365,12 +360,10 @@ export default function Sidebar() {
         </div>
       </aside>
 
-      {/* ========================================================== */}
-      {/* 🖥️ DESKTOP SIDEBAR */}
-      {/* ========================================================== */}
+    
       <aside className="hidden md:flex w-64 min-h-screen bg-slate-900 text-white border-r border-slate-800 flex-col justify-between sticky top-0 h-screen">
         <div>
-          {/* Header */}
+          
           <div className="p-6 border-b border-slate-800/60 flex items-center gap-2">
             <div className="w-8 h-8 rounded-lg bg-emerald-600 flex items-center justify-center font-bold text-white">F</div>
             <div>
@@ -379,15 +372,15 @@ export default function Sidebar() {
             </div>
           </div>
 
-          {/* Menu Links */}
+        
           <nav className="p-4 space-y-1.5">
             {renderNavLinks(false)}
           </nav>
         </div>
 
-        {/* Bottom User Info & Logout (Sticky Footer) */}
+       
         <div className="p-4 border-t border-slate-800/60 bg-slate-950/40 space-y-3">
-          {/* Mini Profile Info */}
+        
           <div className="flex items-center gap-3 px-2 py-1">
             <div className="w-9 h-9 rounded-full bg-emerald-600 flex items-center justify-center font-bold text-white text-sm uppercase shadow-sm shadow-emerald-700/50">
               {session?.user?.name ? session.user.name.substring(0, 2) : "FI"}
@@ -398,7 +391,7 @@ export default function Sidebar() {
             </div>
           </div>
 
-          {/* Action Buttons */}
+        
           <div className="space-y-1">
             <Link
               href="/"
@@ -416,7 +409,7 @@ export default function Sidebar() {
         </div>
       </aside>
 
-      {/* 💡 মোবাইল ভিউতে যাতে কন্টেন্ট সাইডবারের নিচে ঢাকা না পড়ে, সেজন্য Dashboard Layout ফাইলে `main` ট্যাগটিতে মোবাইল মোডে `pt-16` (Padding Top) থাকা নিশ্চিত করবেন। */}
+     
     </>
   );
 }
