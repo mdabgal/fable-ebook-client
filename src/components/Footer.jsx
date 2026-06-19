@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
   FaFacebook,
   FaInstagram,
@@ -9,6 +10,12 @@ import {
 } from "react-icons/fa";
 
 export default function Footer() {
+
+  const pathname = usePathname();
+
+if (pathname.startsWith("/dashboard")) {
+  return null;
+}
   return (
     <footer className="bg-white border-t mt-16">
 

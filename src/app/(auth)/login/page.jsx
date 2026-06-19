@@ -17,7 +17,6 @@ export default function LoginPage() {
     e.preventDefault();
     setError("");
 
-    // ফ্রন্টএন্ড ভ্যালিডেশন
     if (password.length < 6) {
       setError("Password must be at least 6 characters long");
       return;
@@ -32,13 +31,27 @@ export default function LoginPage() {
       });
 
       if (authError) {
-        setError(authError.message || "Login failed. Please check your credentials.");
-      } else {
-        router.push("/");
-        router.refresh();
+        setError(authError.message || "Login failed");
+        return;
       }
+
+      // 🔥 Better-Auth সেশন নেওয়া
+      const session = await authClient.getSession();
+      const user = session?.user;
+
+      // 🔄 রোল অনুযায়ী ড্যাশবোর্ডে রিডাইরেক্ট
+      if (user?.role === "admin") {
+        router.push("/dashboard/admin");
+      } else if (user?.role === "writer") {
+        router.push("/dashboard/writer");
+      } else {
+        router.push("/dashboard/reader");
+      }
+
+      router.refresh();
+
     } catch (err) {
-      setError("Something went wrong. Please try again.");
+      setError("Something went wrong");
     } finally {
       setLoading(false);
     }
@@ -47,12 +60,18 @@ export default function LoginPage() {
   const handleGoogleLogin = async () => {
     try {
       setError("");
+      setLoading(true);
+      
       await authClient.signIn.social({
         provider: "google",
-        callbackURL: "/",
+        // 💡 এখানে callbackURL পরিবর্তন করে /dashboard দেওয়া হলো।
+        // আপনার /dashboard/page.jsx ফাইলে ইউজারের রোল অনুযায়ী রিডাইরেক্ট করার লজিক লিখে রাখতে হবে।
+        callbackURL: "/dashboard", 
       });
     } catch {
       setError("Google login failed");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -114,11 +133,12 @@ export default function LoginPage() {
 
         <button
           onClick={handleGoogleLogin}
+          disabled={loading}
           type="button"
-          className="w-full flex items-center justify-center gap-2 border border-slate-200 py-2 rounded-lg hover:bg-slate-100 transition font-medium"
+          className="w-full flex items-center justify-center gap-2 border border-slate-200 py-2 rounded-lg hover:bg-slate-100 transition font-medium disabled:opacity-50"
         >
           <FcGoogle className="text-xl" />
-          Continue with Google
+          {loading ? "Connecting..." : "Continue with Google"}
         </button>
 
         <p className="text-center text-sm text-slate-500 mt-6">

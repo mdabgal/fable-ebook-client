@@ -1,20 +1,14 @@
+import Sidebar from "@/components/Sidebar";
+
+
+
 export default function DashboardLayout({ children }) {
   return (
-    <div className="flex min-h-screen">
+    <div className="flex min-h-screen bg-slate-100">
 
-      {/* Sidebar */}
-      <aside className="w-64 bg-slate-900 text-white p-5">
-        <h1 className="text-xl font-bold">📚 Fable Dashboard</h1>
+      <Sidebar />
 
-        <nav className="mt-6 flex flex-col gap-3">
-          <a href="/dashboard" className="hover:text-emerald-400">Home</a>
-          <a href="/dashboard/writer" className="hover:text-emerald-400">Writer</a>
-          <a href="/dashboard/reader" className="hover:text-emerald-400">Reader</a>
-        </nav>
-      </aside>
-
-      {/* Content */}
-      <main className="flex-1 p-6 bg-slate-50">
+      <main className="flex-1 p-6 pt-20 md:pt-6">
         {children}
       </main>
 
