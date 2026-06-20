@@ -1,15 +1,119 @@
-import { FaMoneyBillWave } from "react-icons/fa";
+"use client";
+
+import { useEffect, useState } from "react";
 
 export default function TransactionsPage() {
-  return (
-    <div>
-      <h1 className="text-3xl font-bold flex items-center gap-2 mb-6">
-        <FaMoneyBillWave className="text-orange-500" />
-        Transactions
-      </h1>
+  const [transactions, setTransactions] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-      <div className="bg-white p-6 rounded-xl shadow">
-        <p>Payment history will appear here.</p>
+  const fetchTransactions = async () => {
+    try {
+      setLoading(true);
+
+      const res = await fetch("http://localhost:5000/admin/transactions");
+      const data = await res.json();
+
+      setTransactions(data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchTransactions();
+  }, []);
+
+  if (loading) {
+    return <p className="p-6 text-gray-500">Loading transactions...</p>;
+  }
+
+  return (
+    <div className="p-6 bg-gray-50 min-h-screen">
+
+      {/* HEADER */}
+      <div className="mb-6">
+        <h1 className="text-3xl font-bold text-gray-800">
+          💰 Transactions
+        </h1>
+        <p className="text-gray-500 text-sm">
+          All payment and purchase history
+        </p>
+      </div>
+
+      {/* TABLE */}
+      <div className="bg-white shadow border rounded-2xl overflow-hidden">
+
+        <table className="w-full text-sm">
+
+          <thead className="bg-gray-100 text-gray-700">
+            <tr>
+              <th className="p-3 text-left">Transaction ID</th>
+              <th className="p-3 text-left">Type</th>
+              <th className="p-3 text-left">User Email</th>
+              <th className="p-3 text-left">Writer Email</th>
+              <th className="p-3 text-left">Amount</th>
+              <th className="p-3 text-left">Date</th>
+            </tr>
+          </thead>
+
+          <tbody>
+
+            {transactions.map((t, index) => (
+              <tr
+                key={t._id}
+                className={`border-t hover:bg-gray-50 ${
+                  index % 2 === 0 ? "bg-white" : "bg-gray-50"
+                }`}
+              >
+
+                {/* ID */}
+                <td className="p-3 text-xs text-gray-600">
+                  {t.transactionId || t._id}
+                </td>
+
+                {/* TYPE */}
+                <td className="p-3">
+                  <span
+                    className={`px-2 py-1 text-xs rounded-full
+                      ${
+                        t.type === "purchase"
+                          ? "bg-blue-100 text-blue-700"
+                          : "bg-purple-100 text-purple-700"
+                      }`}
+                  >
+                    {t.type}
+                  </span>
+                </td>
+
+                {/* USER */}
+                <td className="p-3 text-gray-700">
+                  {t.userEmail}
+                </td>
+
+                {/* WRITER */}
+                <td className="p-3 text-gray-700">
+                  {t.writerEmail || "N/A"}
+                </td>
+
+                {/* AMOUNT */}
+                <td className="p-3 font-semibold text-green-600">
+                  ${t.amount}
+                </td>
+
+                {/* DATE */}
+                <td className="p-3 text-gray-500">
+                  {new Date(t.date).toLocaleDateString()}
+                </td>
+
+              </tr>
+            ))}
+
+          </tbody>
+
+        </table>
+
       </div>
     </div>
   );

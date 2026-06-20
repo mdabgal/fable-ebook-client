@@ -47,6 +47,10 @@ export const auth = betterAuth({
         type: "string",
         defaultValue: "reader", 
       },
+       writerVerified: {
+    type: "boolean",
+    defaultValue: false,
+  },
       profilePicture: {
         type: "string",
         required: false,

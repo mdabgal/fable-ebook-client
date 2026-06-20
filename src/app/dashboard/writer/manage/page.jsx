@@ -62,29 +62,7 @@ useEffect(() => {
   };
 
   
-  // const handleConfirmDelete = async () => {
-  //   if (!selectedBook) return;
-  //   const id = selectedBook._id;
-  //   const toastId = toast.loading("Deleting book...");
-  //   setIsDeleteModalOpen(false);
 
-  //   try {
-  //     const res = await fetch(`http://localhost:5000/ebooks/${id}`, {
-  //       method: "DELETE",
-  //     });
-
-  //     if (res.ok) {
-  //       toast.success("Book deleted successfully! ", { id: toastId });
-  //       setBooks(books.filter((book) => book._id !== id));
-  //     } else {
-  //       toast.error("Failed to delete book", { id: toastId });
-  //     }
-  //   } catch (error) {
-  //     toast.error("Something went wrong!", { id: toastId });
-  //   } finally {
-  //     setSelectedBook(null);
-  //   }
-  // };
 
 const handleConfirmDelete = async () => {
     if (!selectedBook) return;
