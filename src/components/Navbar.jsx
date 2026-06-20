@@ -65,9 +65,12 @@ export default function Navbar() {
           </li>
 
           <li>
-            <Link href="/browse" className={navLink("/browse")}>
-              Browse Ebooks
-            </Link>
+            <Link 
+  href="/ebooks" 
+  className="text-slate-600 hover:text-indigo-600 font-medium transition"
+>
+  Browse Ebooks
+</Link>
           </li>
 
           {user && (
@@ -143,7 +146,12 @@ export default function Navbar() {
       {menuOpen && (
         <div className="md:hidden bg-white border-t p-4 space-y-3">
           <Link href="/">Home</Link>
-          <Link href="/browse">Browse Ebooks</Link>
+        <Link 
+  href="/ebooks" 
+  className="text-slate-600 hover:text-indigo-600 font-medium transition"
+>
+  Browse Ebooks
+</Link>
 
           {user && (
             <Link href={`/dashboard/${user?.role}`}>Dashboard</Link>

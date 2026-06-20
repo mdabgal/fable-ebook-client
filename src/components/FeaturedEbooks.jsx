@@ -99,7 +99,7 @@ export default function FeaturedEbooks() {
 
                   
                   <Link href={`/ebooks/${book._id}`}>
-                    <button className="mt-5 w-full flex items-center justify-center gap-2 bg-slate-900 hover:bg-emerald-600 text-white py-2.5 rounded-xl transition font-medium">
+                    <button className="mt-5 w-full flex items-center justify-center gap-2 bg-emerald-700 hover:bg-emerald-600 text-white py-2.5 rounded-xl transition font-medium">
                       View Details
                       <FiArrowRight className="group-hover:translate-x-1 transition" />
                     </button>

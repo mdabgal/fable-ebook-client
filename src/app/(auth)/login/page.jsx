@@ -35,20 +35,23 @@ export default function LoginPage() {
         return;
       }
 
-      // 🔥 Better-Auth সেশন নেওয়া
       const session = await authClient.getSession();
       const user = session?.user;
+// console.log(user)
+//       // 🔄 রোল অনুযায়ী ড্যাশবোর্ডে রিডাইরেক্ট
+//       // if(user){
+//         if (user?.role === "admin") {
+//         router.push("/dashboard/admin");
+//       } else if (user?.role === "writer") {
+//         router.push("/dashboard/writer");
+//       } else if(user?.role === "reader"){
+//         router.push("/dashboard/reader");
+      // }
 
-      // 🔄 রোল অনুযায়ী ড্যাশবোর্ডে রিডাইরেক্ট
-      if (user?.role === "admin") {
-        router.push("/dashboard/admin");
-      } else if (user?.role === "writer") {
-        router.push("/dashboard/writer");
-      } else {
-        router.push("/dashboard/reader");
-      }
+      router.push("/")
 
       router.refresh();
+      // }
 
     } catch (err) {
       setError("Something went wrong");
@@ -64,8 +67,7 @@ export default function LoginPage() {
       
       await authClient.signIn.social({
         provider: "google",
-        // 💡 এখানে callbackURL পরিবর্তন করে /dashboard দেওয়া হলো।
-        // আপনার /dashboard/page.jsx ফাইলে ইউজারের রোল অনুযায়ী রিডাইরেক্ট করার লজিক লিখে রাখতে হবে।
+        
         callbackURL: "/dashboard", 
       });
     } catch {
