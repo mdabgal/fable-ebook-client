@@ -115,7 +115,7 @@ export default function BrowseEbooks() {
       
        
 
-        {/* 📚 ইবুক লিস্ট গ্রিড উইথ অ্যানিমেশন/স্কেলিটন লোডার */}
+        
 {loading ? (
   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
    

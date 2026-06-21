@@ -27,7 +27,7 @@ export default function EbookDetails() {
     if (id) fetchBook();
   }, [id]);
 
-  // Stripe Checkout হ্যান্ডলার
+
   const handleBuyNow = async () => {
     if (!book) return;
     setPaymentLoading(true);
@@ -42,11 +42,12 @@ export default function EbookDetails() {
           title: book.title,
           price: book.price,
           image: book.image,
+            writerEmail: book.writerEmail
         }),
       });
       const data = await res.json();
       if (data.id) {
-        window.location.href = data.id; // Stripe-এর অফিসিয়াল পেমেন্ট পেজে রিডাইরেক্ট করবে
+        window.location.href = data.id; 
       } else {
         alert("Payment session creation failed!");
       }
@@ -57,7 +58,7 @@ export default function EbookDetails() {
     }
   };
 
-  // 🦴 ১. অ্যাসাইনমেন্ট রিকোয়ারমেন্ট অনুযায়ী সুন্দর "Skeleton Loader"
+ 
   if (loading) {
     return (
       <div className="min-h-screen bg-slate-50 py-12 px-4 sm:px-6">
@@ -87,14 +88,14 @@ export default function EbookDetails() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100 py-12 px-4 sm:px-6 lg:px-8">
       
-      {/* ব্যাক বাটন */}
+   
       <div className="max-w-5xl mx-auto mb-6">
         <Link href="/ebooks" className="inline-flex items-center gap-2 text-sm font-semibold text-slate-500 hover:text-emerald-600 transition">
           ← Back to Browse
         </Link>
       </div>
 
-      {/* 🌟 প্রিমিয়াম ডিটেইলস কার্ড উইথ মোশন */}
+     
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -117,7 +118,7 @@ export default function EbookDetails() {
           </span>
         </div>
 
-        {/* ডান পাশ: বইয়ের সমস্ত মেটাডেটা ও পেমেন্ট বাটন */}
+      
         <div className="flex flex-col justify-between py-2 space-y-6">
           <div className="space-y-4">
             <h1 className="text-3xl md:text-4xl font-extrabold text-slate-800 tracking-tight leading-tight">
@@ -130,7 +131,7 @@ export default function EbookDetails() {
 
             <div className="h-px bg-slate-100 my-4" />
 
-            {/* ডেসক্রিপশন (যদি ডাটাবেজে থাকে, না থাকলে প্রফেশনাল ডেমো টেক্সট) */}
+           
             <div className="space-y-2">
               <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider">About This Ebook</h4>
               <p className="text-slate-600 text-sm leading-relaxed">
@@ -154,28 +155,38 @@ export default function EbookDetails() {
             </div>
           </div>
 
-          {/* প্রাইজ এবং বাই নাও অ্যাকশন এরিয়া */}
+    
           <div className="pt-6 border-t border-slate-100 space-y-4">
             <div className="flex items-baseline justify-between">
               <span className="text-sm font-bold text-slate-400 uppercase tracking-wider">Total Price</span>
               <span className="text-3xl font-black text-slate-900">${book.price}</span>
             </div>
 
-            {/* Stripe পেমেন্ট ট্রিগার বাটন */}
-            <button
-              onClick={handleBuyNow}
-              disabled={paymentLoading}
-              className="w-full bg-gradient-to-r from- emerald-600 to-emerald-600 hover:from-emerald-700 hover:to-emerald-700 text-white font-bold py-4 rounded-xl shadow-lg shadow-indigo-600/20 transition-all duration-300 transform active:scale-[0.98] disabled:opacity-50 flex items-center justify-center gap-2"
-            >
-              {paymentLoading ? (
-                <>
-                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                  Connecting to Stripe...
-                </>
-              ) : (
-                "Proceed to Buy Now"
-              )}
-            </button>
+         
+
+
+
+   <div className="mt-6 space-y-3">
+                <button className="w-full bg-blue-600 text-white py-3 px-6 rounded-lg hover:bg-blue-700 transition-colors duration-200 font-semibold">
+                  Add to Cart
+                </button>
+                <form action={"/api/payment"} method="POST">
+  <input type="hidden" name="price" value={book.price} />
+  <input type="hidden" name="title" value={book.title} />
+  <input type="hidden" name="productId" value={book._id} />
+  <input type="hidden" name="writerEmail" value={book.writerEmail} />
+
+  <button
+    type="submit"
+    className="w-full border-2 border-blue-600 text-blue-600 py-3 px-6 rounded-lg hover:bg-blue-50 transition-colors duration-200 font-semibold"
+  >
+    Buy Now
+  </button>
+</form>
+              </div>
+
+
+
           </div>
         </div>
 
