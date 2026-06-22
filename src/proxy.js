@@ -17,18 +17,15 @@ export async function proxy(request) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
+
+
+
  
-  if (
-    pathname.startsWith("/dashboard/writer") &&
-    session.user.role === "writer" &&
-    session.user.writerVerified === false //
-  ) {
-    return NextResponse.redirect(new URL("/pricing", request.url));
-  }
+ 
 
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/profile", "/dashboard/writer/:path*"],
+  matcher: ["/profile", "/dashboard/:path*"],
 };

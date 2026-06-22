@@ -81,20 +81,27 @@ export default function EbookDetails() {
 
 
    const handleBuyNow = async () => {
-  // if (!session) {
-  //   toast.error("Please login first");
-  //   redirect("/login");
-   
-  // }
+
+// if (!session?.user) {
+//       e.preventDefault();
+//       router.push(
+//         `/login?callbackUrl=${encodeURIComponent(
+//           `/books/${book._id}`
+//         )}`
+//       );
+//     }
 
 if (!session?.user) {
-      e.preventDefault();
-      router.push(
-        `/login?callbackUrl=${encodeURIComponent(
-          `/books/${book._id}`
-        )}`
-      );
-    }
+  toast.error("Please login first");
+
+  router.push(
+    `/login?callbackUrl=${encodeURIComponent(
+      `/books/${book._id}`
+    )}`
+  );
+
+  return;
+}
 
 
   const token = session?.data?.access_token;

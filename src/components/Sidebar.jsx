@@ -186,7 +186,7 @@ export default function Sidebar() {
   const router = useRouter();
 
   const { data: session, isLoading } = authClient.useSession();
-  console.log(session)
+ 
 
   const [mounted, setMounted] = useState(false);
   const [open, setOpen] = useState(false);
