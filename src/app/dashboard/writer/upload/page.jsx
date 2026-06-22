@@ -15,6 +15,7 @@ export default function UploadPage() {
     author: "",
     price: "",
     image: "", 
+    writerEmail: "",
   });
 
   const [loading, setLoading] = useState(false);
@@ -80,6 +81,7 @@ export default function UploadPage() {
         author: "",
         price: "",
         image: "",
+        writerEmail: "",
       });
     } catch (err) {
       toast.error("Upload failed! Try again ", {
@@ -110,6 +112,16 @@ export default function UploadPage() {
           className="w-full border p-3 rounded-lg"
           required
         />
+
+        <input
+  name="writerEmail"
+  type="email" 
+  value={form.writerEmail}
+  onChange={handleChange}
+  placeholder="Writer Email"
+  className="w-full border p-3 rounded-lg"
+  required
+/>
 
         <input
           name="author"

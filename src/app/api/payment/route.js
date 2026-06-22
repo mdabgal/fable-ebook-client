@@ -2,8 +2,11 @@ import { NextResponse } from "next/server";
 import { headers } from "next/headers";
 import { stripe } from "@/lib/stripe";
 import { auth } from "@/lib/auth";
+import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 
 export async function POST(request) {
+
   try {
     const headersList = await headers();
     const origin = headersList.get("origin");
@@ -12,13 +15,43 @@ export async function POST(request) {
       headers: await headers(),
     });
 
-    const user = userSession?.user;
+
+console.log("USER SESSION =", userSession);
+
+const user = userSession?.user;
+
+console.log("USER =", user);
+
+if (!userSession) {
+    return Response.redirect(
+      new URL("/login", request.url),
+      302
+    );
+  }
+
+
     const formData = await request.formData();
     const price = formData.get('price')
     const title = formData.get('title')
     const productId = formData.get('productId')
     const writerEmail = formData.get("writerEmail");
-
+   
+     const res = await fetch("http://localhost:5000/purchase", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+           Authorization: `Bearer ${userSession.session.token}`,
+            
+        },
+        body: JSON.stringify({ 
+        bookId: productId,
+        userEmail:user.email,
+          amount: price,
+        
+            writerEmail:writerEmail
+        }),
+      });
+      const data = await res.json();
     
     const session = await stripe.checkout.sessions.create({
       customer_email: user?.email,
@@ -54,3 +87,4 @@ export async function POST(request) {
     );
   }
 }
+
