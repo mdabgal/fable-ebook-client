@@ -79,6 +79,41 @@ export default function EbookDetails() {
   // };
 
 
+const handleBookmark = async () => {
+  const email = session?.user?.email;
+  if (!email) {
+  toast.error("Please login first");
+  router.push("/login");
+  return;
+}
+
+  try {
+    const res = await fetch("http://localhost:5000/bookmarks", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userEmail: session.user.email,
+        bookId: book._id,
+      }),
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+      toast.success("Book bookmarked!");
+    } else {
+      toast.error(data.message || "Failed to bookmark");
+    }
+  } catch (error) {
+    toast.error("Something went wrong");
+  }
+};
+
+
+
+
 
    const handleBuyNow = async () => {
 
@@ -237,9 +272,21 @@ if (!session?.user) {
 
 
             <div className="mt-6 space-y-3">
-              <button className="w-full bg-blue-600 text-white py-3 px-6 rounded-lg hover:bg-blue-700 transition-colors duration-200 font-semibold">
+              <button className="w-full border-2 border-red-600 text-red-600 py-3 px-6 rounded-lg hover:bg-red-100 transition-colors duration-200 font-semibold">
                 Add to Cart
               </button>
+
+
+
+              <button
+      onClick={handleBookmark}
+    className="border-2 border-blue-600 text-blue-600 py-3 px-6 rounded-lg hover:bg-blue-50 transition-colors duration-200 font-semibold"
+  >
+    Bookmark Ebook
+  </button>
+
+
+
               <form action={"/api/payment"} method="POST">
                 <input type="hidden" name="price" value={book.price} />
                 <input type="hidden" name="title" value={book.title} />
@@ -249,7 +296,7 @@ if (!session?.user) {
                 <button
                   onClick={handleBuyNow}
                   type="submit"
-                  className="w-full border-2 border-blue-600 text-blue-600 py-3 px-6 rounded-lg hover:bg-blue-50 transition-colors duration-200 font-semibold"
+                  className="w-full border-2 border-emerald-600 text-emerald-600 py-3 px-6 rounded-lg hover:bg-emerald-50 transition-colors duration-200 font-semibold"
                 >
                   Buy Now
                 </button>

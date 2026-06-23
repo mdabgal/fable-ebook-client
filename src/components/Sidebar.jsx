@@ -231,6 +231,7 @@ export default function Sidebar() {
       { name: "Upload New Ebook", path: "/dashboard/writer/upload", icon: <FaCloudUploadAlt /> },
       { name: "Manage Ebooks", path: "/dashboard/writer/manage", icon: <FaTasks /> },
       { name: "Sales History", path: "/dashboard/writer/sales", icon: <FaChartLine /> },
+      { name: "Bookmarks", path: "/dashboard/writer/bookmarks", icon: <FaBookOpen /> },
     ],
     reader: [
       { name: "Dashboard Home", path: "/dashboard/reader", icon: <FaBookOpen /> },

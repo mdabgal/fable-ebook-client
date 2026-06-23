@@ -88,11 +88,17 @@ const handleConfirmDelete = async () => {
         if (res.ok) {
             toast.success("Book deleted successfully!", { id: toastId });
             
-            // State update korar sothik niyom:
-            setBooks((prev) => ({
-                ...prev,
-                books: prev.books.filter((book) => book._id !== id)
-            }));
+          
+            // setBooks((prev) => ({
+            //     ...prev,
+            //     books: prev.books.filter((book) => book._id !== id)
+            // }));
+
+              setBooks((prev) =>
+  prev.filter((book) => book._id !== id)
+);
+
+
             
         } else {
             toast.error("Failed to delete book", { id: toastId });
@@ -132,14 +138,7 @@ const handleConfirmDelete = async () => {
       if (res.ok) {
         toast.success(`Book ${newStatus} successfully!`, { id: toastId });
         
-        // setBooks((prevBooks) =>
-        // {
-        // const updatedBook= prevBooks.map((book) =>
-        //     book._id === id ? { ...book, status: newStatus } : book
-        //   )
-        //   return {...books, books:updatedBook}
-        // }
-        // );
+      
 
 setBooks((prevBooks) =>
   prevBooks.map((book) =>
@@ -194,14 +193,20 @@ setBooks((prevBooks) =>
         toast.success("Book updated successfully! ", { id: toastId });
 console.log(selectedBook)
     
-       setBooks(prevBooks => {
-const updatedBook =prevBooks.map((b) =>
-            b._id === selectedBook._id
-              ? { ...b, title: editTitle, author: editAuthor, price: editPrice }
-              : b
-          )
-return {...books, books: updatedBook}
-})
+
+setBooks((prevBooks) =>
+  prevBooks.map((b) =>
+    b._id === selectedBook._id
+      ? {
+          ...b,
+          title: editTitle,
+          author: editAuthor,
+          price: Number(editPrice),
+        }
+      : b
+  )
+);
+
 
       
        
