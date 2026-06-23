@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useState } from "react";
@@ -9,37 +10,60 @@ export default function HistoryPage() {
 
   useEffect(() => {
     const getHistory = async () => {
-      if (!session) return;
-
-      // const token = session?.data?.access_token; // আগে console.log(session) দিয়ে verify করো
+      if (!session?.user?.email) return;
 
       const res = await fetch(
-        `http://localhost:5000/my-purchase/${session?.user?.email}`,
-        // {
-        //   headers: {
-        //     Authorization: `Bearer ${token}`,
-        //   },
-        // }
+        `http://localhost:5000/my-purchase/${session.user.email}`
       );
 
       const data = await res.json();
-      console.log(data)
       setHistory(data);
     };
 
     getHistory();
-  }, [session]);
-console.log(history)
-  return (
-    <div>
-      <h1>Reading History</h1>
+  }, [session?.user?.email]);
 
-      {history.map((item) => (
-        <div key={item._id}>
-          <p>{item.bookId}</p>
-          <p>{item.amount}</p>
+  return (
+    <div className="p-6">
+      <h1 className="text-3xl font-bold mb-6">
+        Purchase History
+      </h1>
+
+      {history.length === 0 ? (
+        <p>No purchases found.</p>
+      ) : (
+        <div className="space-y-4">
+          {history.map((item) => (
+            <div
+              key={item._id}
+              className="border rounded-lg p-4 shadow"
+            >
+              <p>
+                <strong>Book ID:</strong> {item.bookId}
+              </p>
+
+              <p>
+                <strong>Price:</strong> ${item.amount}
+              </p>
+
+              <p>
+                <strong>User:</strong> {item.userEmail}
+              </p>
+
+            <p>
+              <b>Date:</b>{" "}
+              {item.purchaseDate
+                ? new Date(item.purchaseDate).toLocaleDateString()
+                : new Date(item.date).toLocaleDateString()}
+            </p>
+
+            <p>
+              <b>Status:</b> {item.status || "Paid"}
+            </p>
+            </div>
+          ))}
         </div>
-      ))}
+      )}
     </div>
   );
 }

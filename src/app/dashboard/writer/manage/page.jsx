@@ -12,6 +12,7 @@ export default function ManageBooks() {
 
    const { data: session } = authClient.useSession();
     const user = session?.user;
+    console.log(session)
   const [books, setBooks] = useState([]);
       const [loading, setLoading] = useState(true);
 
@@ -29,21 +30,25 @@ export default function ManageBooks() {
 
   const fetchBooks = async () => {
     try {
-      const res = await fetch("http://localhost:5000/ebooks");
+      const res = await fetch(
+  `http://localhost:5000/writer/books?email=${user?.email}`
+)
       const data = await res.json();
       setBooks(data);
+      console.log(data)
     } catch (error) {
     
       console.error("Error fetching books:", error);
+
       toast.error("Failed to load books!");
     } finally {
       setLoading(false);
     }
   };
 
+const token = session?.session?.token
 
-
-
+console.log(books)
 
 
 useEffect(() => {
@@ -51,9 +56,9 @@ useEffect(() => {
     fetchBooks();
   }
 }, [user?.email]);
-  useEffect(() => {
-    fetchBooks();
-  }, []);
+  // useEffect(() => {
+  //   fetchBooks();
+  // }, []);
 
 
   const openDeleteModal = (book) => {
@@ -75,6 +80,9 @@ const handleConfirmDelete = async () => {
     try {
         const res = await fetch(`http://localhost:5000/ebooks/${id}`, {
             method: "DELETE",
+            headers: {
+              authorization: `Bearer ${token}`
+            }
         });
 
         if (res.ok) {
@@ -124,14 +132,25 @@ const handleConfirmDelete = async () => {
       if (res.ok) {
         toast.success(`Book ${newStatus} successfully!`, { id: toastId });
         
-        setBooks((prevBooks) =>
-        {
-        const updatedBook= prevBooks.books.map((book) =>
-            book._id === id ? { ...book, status: newStatus } : book
-          )
-          return {...books, books:updatedBook}
-        }
-        );
+        // setBooks((prevBooks) =>
+        // {
+        // const updatedBook= prevBooks.map((book) =>
+        //     book._id === id ? { ...book, status: newStatus } : book
+        //   )
+        //   return {...books, books:updatedBook}
+        // }
+        // );
+
+setBooks((prevBooks) =>
+  prevBooks.map((book) =>
+    book._id === id
+      ? { ...book, status: newStatus }
+      : book
+  )
+);
+
+
+
       } else {
         toast.error(data.error || "Failed to update status", { id: toastId });
       }
@@ -140,6 +159,10 @@ const handleConfirmDelete = async () => {
       toast.error("Something went wrong!", { id: toastId });
     }
   };
+
+
+  
+  
 
   const handleUpdateBook = async (e) => {
     e.preventDefault();
@@ -158,6 +181,7 @@ const handleConfirmDelete = async () => {
         method: "PUT", 
         headers: {
           "Content-Type": "application/json",
+           authorization: `Bearer ${token}`
         },
         body: JSON.stringify({
           title: editTitle,
@@ -171,7 +195,7 @@ const handleConfirmDelete = async () => {
 console.log(selectedBook)
     
        setBooks(prevBooks => {
-const updatedBook =prevBooks.books.map((b) =>
+const updatedBook =prevBooks.map((b) =>
             b._id === selectedBook._id
               ? { ...b, title: editTitle, author: editAuthor, price: editPrice }
               : b
@@ -180,7 +204,7 @@ return {...books, books: updatedBook}
 })
 
       
-        console.log(books)
+       
         setIsEditModalOpen(false);
       } else {
         toast.error("Failed to update book", { id: toastId });
@@ -192,7 +216,7 @@ return {...books, books: updatedBook}
       setIsUpdating(false);
     }
   };
-  console.log(books)
+ 
 
   return (
     <div className="relative">
@@ -208,7 +232,7 @@ return {...books, books: updatedBook}
 
         {loading ? (
           <div className="text-center py-10 text-slate-500">Loading your books...</div>
-        ) : books.books.length === 0 ? (
+        ) : books.length === 0 ? (
           <div className="text-center py-10 text-slate-500">No books found. Upload one first!</div>
         ) : (
           <div className="overflow-x-auto">
@@ -225,7 +249,7 @@ return {...books, books: updatedBook}
               </thead>
               <tbody className="divide-y divide-slate-100 text-sm text-slate-700">
                 {/* {books.map((book) => ( */}
-                {Array.isArray(books.books) && books.books?.map((book) => (
+                {Array.isArray(books) && books?.map((book) => (
                   <tr key={book._id} className="hover:bg-slate-50 transition">
                     <td className="p-4">
                       <img
@@ -400,8 +424,8 @@ return {...books, books: updatedBook}
       </AnimatePresence>
     </div>
   );
-}
 
+};
 
 
 

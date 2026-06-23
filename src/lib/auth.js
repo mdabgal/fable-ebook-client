@@ -51,10 +51,15 @@ export const auth = betterAuth({
     type: "boolean",
     defaultValue: false,
   },
-      profilePicture: {
-        type: "string",
-        required: false,
-      },
+      // profilePicture: {
+      //   type: "string",
+      //   required: false,
+      // },
+
+      image: { 
+      type: "string",
+      required: false,
+    },
     },
   },
 

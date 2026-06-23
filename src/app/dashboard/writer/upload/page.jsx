@@ -9,6 +9,7 @@ import { motion } from "framer-motion";
 import { FaPenNib, FaCloudUploadAlt } from "react-icons/fa";
 import toast from "react-hot-toast";
 import { imageUpload } from "@/utils/imageUpload"; 
+import { authClient } from "@/lib/auth-client";
 export default function UploadPage() {
   const [form, setForm] = useState({
     title: "",
@@ -17,9 +18,11 @@ export default function UploadPage() {
     image: "", 
     writerEmail: "",
   });
-
+const { data: session } = authClient.useSession();
+console.log(session)
   const [loading, setLoading] = useState(false);
   const [uploadingImage, setUploadingImage] = useState(false); 
+const token = session?.session?.token
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -38,7 +41,7 @@ export default function UploadPage() {
 
       if (url) {
         setForm((prev) => ({ ...prev, image: url })); 
-        toast.success("Image uploaded successfully! 📸", { id: toastId });
+        toast.success("Image uploaded successfully! 📸", { id: toastId }); 
       } else {
         toast.error("Image upload failed!", { id: toastId });
       }
@@ -64,9 +67,21 @@ export default function UploadPage() {
     try {
       const res = await fetch("http://localhost:5000/ebooks", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form), 
-      });
+        headers: 
+        { 
+          "Content-Type": "application/json", 
+          authorization: `Bearer ${token}`
+
+        },
+        body: JSON.stringify({
+          ...form,
+          writerEmail: session?.user?.email
+        }), 
+  //       body: JSON.stringify({
+  // ...form,
+  // writerEmail: session?.user?.email
+})
+    
 
       if (!res.ok) {
         throw new Error("Upload failed");
@@ -113,15 +128,7 @@ export default function UploadPage() {
           required
         />
 
-        <input
-  name="writerEmail"
-  type="email" 
-  value={form.writerEmail}
-  onChange={handleChange}
-  placeholder="Writer Email"
-  className="w-full border p-3 rounded-lg"
-  required
-/>
+  
 
         <input
           name="author"

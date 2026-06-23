@@ -15,6 +15,7 @@ import {
 } from "react-icons/fa";
 
 import { MdDashboard, MdLogout } from "react-icons/md";
+import Image from "next/image";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -102,9 +103,17 @@ export default function Navbar() {
             <div className="relative">
 
               <button onClick={() => setDropdownOpen(!dropdownOpen)}>
-                <FaUserCircle size={34} className="text-emerald-600" />
+               <Image
+    src={user?.image || "https://i.ibb.co/2tZ5z3K/user.png"}
+    alt="user"
+    height={20}
+    width={20}
+    className="w-9 h-9 rounded-full object-cover border"
+  />
               </button>
-
+{
+  console.log(user)
+}
               {dropdownOpen && (
                 <div className="absolute right-0 mt-3 w-64 bg-white shadow-lg rounded-xl">
 

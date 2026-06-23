@@ -24,7 +24,7 @@ export default function ManageUsersPage() {
   useEffect(() => {
     fetchUsers();
   }, []);
-
+console.log(users)
   const changeRole = async (id, role) => {
     setActionLoading(id);
     try {
@@ -70,7 +70,8 @@ export default function ManageUsersPage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
-              {users.map((user) => (
+              {Array.isArray(users) &&
+              users.map((user) => (
                 <tr key={user._id} className="hover:bg-slate-50 transition-colors">
                   <td className="px-6 py-4 font-semibold text-slate-800">{user.name || "N/A"}</td>
                   <td className="px-6 py-4 text-slate-600">{user.email}</td>

@@ -236,6 +236,8 @@ export default function Sidebar() {
       { name: "Dashboard Home", path: "/dashboard/reader", icon: <FaBookOpen /> },
       { name: "My Purchases", path: "/dashboard/reader/purchases", icon: <FaBook /> },
       { name: "Reading History", path: "/dashboard/reader/history", icon: <FaHistory /> },
+      { name: "Profile", path: "/dashboard/reader/profile", icon: <FaUsers /> },
+  { name: "Bookmarks", path: "/dashboard/reader/bookmarks", icon: <FaBookOpen /> },
     ],
     admin: [
       { name: "Admin Home", path: "/dashboard/admin", icon: <FaHome /> },
