@@ -19,11 +19,12 @@ export const CardSkeleton = () => {
 export const TableRowSkeleton = () => {
     return (
         <tr className="animate-pulse border-b border-gray-100">
-            <td className="p-4"><div className="h-4 bg-gray-200 rounded w-12"></div></td>
-            <td className="p-4"><div className="h-4 bg-gray-200 rounded w-32"></div></td>
-            <td className="p-4"><div className="h-4 bg-gray-200 rounded w-24"></div></td>
-            <td className="p-4"><div className="h-4 bg-gray-200 rounded w-20"></div></td>
-            <td className="p-4"><div className="h-4 bg-gray-200 rounded w-16"></div></td>
+           <td className="p-4"><div className="h-4 bg-gray-200 rounded w-28"></div></td>
+      <td className="p-4"><div className="h-4 bg-gray-200 rounded w-16"></div></td>
+      <td className="p-4"><div className="h-4 bg-gray-200 rounded w-40"></div></td>
+      <td className="p-4"><div className="h-4 bg-gray-200 rounded w-40"></div></td>
+      <td className="p-4"><div className="h-4 bg-gray-200 rounded w-16"></div></td>
+      <td className="p-4"><div className="h-4 bg-gray-200 rounded w-24"></div></td>
         </tr>
     );
 };

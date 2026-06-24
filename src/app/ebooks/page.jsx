@@ -187,14 +187,14 @@ export default function BrowseEbooks() {
                     </p>
                   </div>
 
-                  {/* বোতাম ও প্রাইজ লাইন */}
+                 
                   <div className="p-5 border-t border-slate-50 bg-slate-50/50 flex justify-between items-center gap-3">
                     <div>
                       <span className="text-xs text-slate-400 font-bold block uppercase tracking-wider">Price</span>
                       <span className="text-2xl font-black text-slate-900">${book.price}</span>
                     </div>
                     
-                    {/* ডাইনামিক ডিটেইলস পেজ কানেকশন বাটন */}
+                    
                     <Link href={`/ebooks/${book._id}`} className="flex-1">
                       <button className="w-full bg-indigo-50 hover:bg-emerald-600 text-emerald-600 hover:text-white font-bold text-sm py-3 px-4 rounded-xl transition-all duration-300 shadow-sm border border-indigo-100 hover:border-emerald-600 active:scale-95 text-center">
                         View Details

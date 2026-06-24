@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { FaUserShield, FaUserEdit, FaTrash, FaSpinner } from "react-icons/fa";
 import toast, { Toaster } from "react-hot-toast"; // npm install react-hot-toast
 import { authClient } from "@/lib/auth-client";
+import { TableRowSkeleton } from "@/components/Skeleton";
 
 export default function ManageUsersPage() {
   const [users, setUsers] = useState([]);
@@ -81,7 +82,7 @@ const { data: session } = authClient.useSession();
   }
 };
 
-  if (loading) return <div className="flex justify-center py-20"><FaSpinner className="animate-spin text-4xl text-emerald-500" /></div>;
+ 
 
   return (
     <div className="p-6 max-w-6xl mx-auto">
@@ -108,7 +109,7 @@ const { data: session } = authClient.useSession();
                 <th className="px-6 py-4 text-center">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100">
+             {/* <tbody className="divide-y divide-slate-100">
               {Array.isArray(users) &&
               users.map((user) => (
                 <tr key={user._id} className="hover:bg-slate-50 transition-colors">
@@ -152,6 +153,78 @@ const { data: session } = authClient.useSession();
                 </tr>
               ))}
             </tbody>
+             */}
+
+
+<tbody className="divide-y divide-slate-100">
+  {loading ? (
+    [...Array(6)].map((_, index) => (
+      <TableRowSkeleton key={index} />
+    ))
+  ) : (
+    users.map((user) => (
+      <tr
+        key={user._id}
+        className="hover:bg-slate-50 transition-colors"
+      >
+        <td className="px-6 py-4 font-semibold text-slate-800">
+          {user.name || "N/A"}
+        </td>
+
+        <td className="px-6 py-4 text-slate-600">
+          {user.email}
+        </td>
+
+        <td className="px-6 py-4">
+          <span
+            className={`px-3 py-1 rounded-full text-xs font-semibold uppercase ${
+              user.role === "admin"
+                ? "bg-green-100 text-green-700"
+                : user.role === "writer"
+                ? "bg-blue-100 text-blue-700"
+                : "bg-yellow-100 text-yellow-700"
+            }`}
+          >
+            {user.role}
+          </span>
+        </td>
+
+        <td className="px-6 py-4">
+          <div className="flex items-center justify-center gap-2">
+            {["reader", "writer", "admin"].map((role) => (
+              <button
+                key={role}
+                disabled={actionLoading === user._id}
+                onClick={() => changeRole(user._id, role)}
+                className={`btn btn-xs ${
+                  actionLoading === user._id
+                    ? "opacity-50 cursor-not-allowed"
+                    : ""
+                }`}
+              >
+                {role === "admin" && <FaUserShield />}
+                {role === "writer" && <FaUserEdit />}
+                {role.charAt(0).toUpperCase() + role.slice(1)}
+              </button>
+            ))}
+
+            <button
+              onClick={() => setDeleteId(user._id)}
+              className="btn btn-xs text-red-600"
+            >
+              <FaTrash />
+            </button>
+          </div>
+        </td>
+      </tr>
+    ))
+  )}
+</tbody>
+
+
+
+
+
           </table>
 
 {deleteId && (

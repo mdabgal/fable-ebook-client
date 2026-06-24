@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { authClient } from "@/lib/auth-client";
+import { TableRowSkeleton } from "@/components/Skeleton";
 
 export default function SalesPage() {
   const { data: session } = authClient.useSession();
@@ -39,37 +40,53 @@ export default function SalesPage() {
     fetchSales();
   }, [session]);
 
-  if (loading) return <h1>Loading...</h1>;
+ 
 
   return (
-    <div className="p-10">
-      <h1 className="text-2xl font-bold">Sales History</h1>
+ 
 
-      {sales.length === 0 ? (
-        <p>No sales found yet.</p>
+
+<div className="p-10">
+  <h1 className="text-2xl font-bold">Sales History</h1>
+
+  <table className="w-full border mt-5">
+    <thead>
+      <tr>
+        <th>Book</th>
+        <th>Buyer</th>
+        <th>Price</th>
+        <th>Date</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {loading ? (
+        [...Array(5)].map((_, index) => (
+          <TableRowSkeleton key={index} />
+        ))
+      ) : sales.length === 0 ? (
+        <tr>
+          <td colSpan={4} className="text-center py-8">
+            No sales found yet.
+          </td>
+        </tr>
       ) : (
-        <table className="w-full border mt-5">
-          <thead>
-            <tr>
-              <th>Book</th>
-              <th>Buyer</th>
-              <th>Price</th>
-              <th>Date</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {sales.map((s) => (
-              <tr key={s._id} className="text-center border-t">
-                <td>{s.ebookTitle}</td>
-                <td>{s.readerEmail}</td>
-                <td>{s.price}</td>
-                <td>{new Date(s.date).toLocaleString()}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        sales.map((s) => (
+          <tr key={s._id} className="text-center border-t">
+            <td>{s.ebookTitle}</td>
+            <td>{s.readerEmail}</td>
+            <td>{s.price}</td>
+            <td>{new Date(s.date).toLocaleString()}</td>
+          </tr>
+        ))
       )}
-    </div>
+    </tbody>
+  </table>
+</div>
+
+
+
+
+
   );
 }

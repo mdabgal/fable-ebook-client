@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { FaTrash, FaEdit, FaBookOpen, FaTimes } from "react-icons/fa";
 import toast from "react-hot-toast";
 import { authClient } from "@/lib/auth-client";
+import { TableRowSkeleton } from "@/components/Skeleton";
 
 export default function ManageBooks() {
 
@@ -235,78 +236,107 @@ setBooks((prevBooks) =>
           Manage Your Ebooks
         </h1>
 
-        {loading ? (
-          <div className="text-center py-10 text-slate-500">Loading your books...</div>
-        ) : books.length === 0 ? (
-          <div className="text-center py-10 text-slate-500">No books found. Upload one first!</div>
-        ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse">
-              <thead>
-                <tr className="bg-slate-50 text-slate-600 uppercase text-xs tracking-wider border-b">
-                  <th className="p-4 font-semibold">Cover</th>
-                  <th className="p-4 font-semibold">Title</th>
-                  <th className="p-4 font-semibold">Author</th>
-                  <th className="p-4 font-semibold">Price</th>
-                  <th className="p-4 font-semibold text-center">Status</th>
-                  <th className="p-4 font-semibold text-center">Actions</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-100 text-sm text-slate-700">
-                {/* {books.map((book) => ( */}
-                {Array.isArray(books) && books?.map((book) => (
-                  <tr key={book._id} className="hover:bg-slate-50 transition">
-                    <td className="p-4">
-                      <img
-                        src={book.image}
-                        alt={book.title}
-                        className="w-12 h-16 object-cover rounded shadow-sm border"
-                      />
-                    </td>
-                    <td className="p-4 font-semibold text-slate-900">{book.title}</td>
-                    <td className="p-4">{book.author}</td>
-                    <td className="p-4 font-medium text-emerald-600">${book.price}</td>
-                    
-                  
-                    <td className="p-4 text-center whitespace-nowrap">
-                      <button
-                        onClick={() => handleToggleStatus(book._id, book.status || "unpublished")}
-                        className={`px-3 py-1 text-xs font-semibold rounded-full transition duration-300 ${
-                          book.status === "published"
-                            ? "bg-emerald-100 text-emerald-700 hover:bg-emerald-200"
-                            : "bg-amber-100 text-amber-700 hover:bg-amber-200"
-                        }`}
-                      >
-                        {book.status === "published" ? "Published" : "Unpublished"}
-                      </button>
-                    </td>
 
-                    
-                    <td className="p-4 text-center">
-                      <div className="flex justify-center items-center gap-3">
-                        <button
-                          onClick={() => openEditModal(book)}
-                          className="p-2 text-green-600 hover:bg-blue-50 rounded-lg transition"
-                          title="Edit Book"
-                        >
-                          <FaEdit size={16} />
-                        </button>
 
-                        <button
-                          onClick={() => openDeleteModal(book)}
-                          className="p-2 text-rose-600 hover:bg-rose-50 rounded-lg transition"
-                          title="Delete Book"
-                        >
-                          <FaTrash size={16} />
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
+<div className="overflow-x-auto">
+  <table className="w-full text-left border-collapse">
+    <thead>
+      <tr className="bg-slate-50 text-slate-600 uppercase text-xs tracking-wider border-b">
+        <th className="p-4 font-semibold">Cover</th>
+        <th className="p-4 font-semibold">Title</th>
+        <th className="p-4 font-semibold">Author</th>
+        <th className="p-4 font-semibold">Price</th>
+        <th className="p-4 font-semibold text-center">Status</th>
+        <th className="p-4 font-semibold text-center">Actions</th>
+      </tr>
+    </thead>
+
+    <tbody className="divide-y divide-slate-100 text-sm text-slate-700">
+      {loading ? (
+        [...Array(5)].map((_, index) => (
+          <TableRowSkeleton key={index} />
+        ))
+      ) : books.length === 0 ? (
+        <tr>
+          <td
+            colSpan="6"
+            className="text-center py-10 text-slate-500"
+          >
+            No books found. Upload one first!
+          </td>
+        </tr>
+      ) : (
+        books.map((book) => (
+          <tr
+            key={book._id}
+            className="hover:bg-slate-50 transition"
+          >
+            <td className="p-4">
+              <img
+                src={book.image}
+                alt={book.title}
+                className="w-12 h-16 object-cover rounded shadow-sm border"
+              />
+            </td>
+
+            <td className="p-4 font-semibold text-slate-900">
+              {book.title}
+            </td>
+
+            <td className="p-4">
+              {book.author}
+            </td>
+
+            <td className="p-4 font-medium text-emerald-600">
+              ${book.price}
+            </td>
+
+            <td className="p-4 text-center whitespace-nowrap">
+              <button
+                onClick={() =>
+                  handleToggleStatus(
+                    book._id,
+                    book.status || "unpublished"
+                  )
+                }
+                className={`px-3 py-1 text-xs font-semibold rounded-full ${
+                  book.status === "published"
+                    ? "bg-emerald-100 text-emerald-700"
+                    : "bg-amber-100 text-amber-700"
+                }`}
+              >
+                {book.status === "published"
+                  ? "Published"
+                  : "Unpublished"}
+              </button>
+            </td>
+
+            <td className="p-4 text-center">
+              <div className="flex justify-center items-center gap-3">
+                <button
+                  onClick={() => openEditModal(book)}
+                  className="p-2 text-green-600"
+                >
+                  <FaEdit size={16} />
+                </button>
+
+                <button
+                  onClick={() => openDeleteModal(book)}
+                  className="p-2 text-rose-600"
+                >
+                  <FaTrash size={16} />
+                </button>
+              </div>
+            </td>
+          </tr>
+        ))
+      )}
+    </tbody>
+  </table>
+</div>
+
+
+        
       </motion.div>
 
       <AnimatePresence>

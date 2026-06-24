@@ -2,6 +2,7 @@
 
 "use client";
 
+import { TableRowSkeleton } from "@/components/Skeleton";
 import { authClient } from "@/lib/auth-client";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
@@ -121,13 +122,13 @@ const deleteBook = async () => {
 
 
 
-  if (loading) {
-    return (
-      <div className="p-10 text-gray-500 text-sm">
-        Loading ebooks...
-      </div>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <div className="p-10 text-gray-500 text-sm">
+  //       Loading ebooks...
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="p-6 bg-gray-50 min-h-screen">
@@ -157,7 +158,7 @@ const deleteBook = async () => {
             </tr>
           </thead>
 
-          <tbody>
+          {/* <tbody>
 
             {ebooks.map((book, index) => (
              
@@ -225,10 +226,80 @@ const deleteBook = async () => {
               </tr>
             ))}
 
-          </tbody>
+          </tbody> */}
+
+          <tbody>
+
+  {loading ? (
+    [...Array(6)].map((_, index) => (
+      <TableRowSkeleton key={index} />
+    ))
+  ) : (
+    ebooks.map((book, index) => (
+      <tr
+        key={book._id}
+        className={`border-t hover:bg-gray-50 transition ${
+          index % 2 === 0 ? "bg-white" : "bg-gray-50"
+        }`}
+      >
+        <td className="p-3 font-medium text-gray-800">
+          {book.title}
+        </td>
+
+        <td className="p-3 text-gray-600">
+          {book.writerEmail || "Unknown"}
+        </td>
+
+        <td className="p-3 font-semibold text-gray-700">
+          ${book.price}
+        </td>
+
+        <td className="p-3">
+          <span
+            className={`px-3 py-1 rounded-full text-xs font-medium ${
+              book.status === "published"
+                ? "bg-green-100 text-green-700"
+                : "bg-red-100 text-red-600"
+            }`}
+          >
+            {book.status}
+          </span>
+        </td>
+
+        <td className="p-3 flex gap-2 flex-wrap">
+          <button
+            onClick={() =>
+              updateStatus(book._id, "published")
+            }
+            className="px-3 py-1 text-xs rounded-md bg-green-600 text-white"
+          >
+            Publish
+          </button>
+
+          <button
+            onClick={() =>
+              updateStatus(book._id, "unpublished")
+            }
+            className="px-3 py-1 text-xs rounded-md bg-yellow-500 text-white"
+          >
+            Unpublish
+          </button>
+
+          <button
+            onClick={() => setDeleteId(book._id)}
+            className="px-3 py-1 text-xs rounded-md bg-red-500 text-white"
+          >
+            Delete
+          </button>
+        </td>
+      </tr>
+    ))
+  )}
+
+</tbody>
 
         </table>
-
+ 
       </div>
     
 

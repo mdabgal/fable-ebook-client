@@ -15,6 +15,7 @@ export default function UploadPage() {
     title: "",
     author: "",
     price: "",
+     genre: "",
     image: "", 
     writerEmail: "",
   });
@@ -41,7 +42,7 @@ const token = session?.session?.token
 
       if (url) {
         setForm((prev) => ({ ...prev, image: url })); 
-        toast.success("Image uploaded successfully! 📸", { id: toastId }); 
+        toast.success("Image uploaded successfully! ", { id: toastId }); 
       } else {
         toast.error("Image upload failed!", { id: toastId });
       }
@@ -65,6 +66,10 @@ const token = session?.session?.token
     const toastId = toast.loading("Saving ebook to server...");
 
     try {
+      console.log({
+  ...form,
+  writerEmail: session?.user?.email,
+});
       const res = await fetch("http://localhost:5000/ebooks", {
         method: "POST",
         headers: 
@@ -95,6 +100,7 @@ const token = session?.session?.token
         title: "",
         author: "",
         price: "",
+         genre: "",
         image: "",
         writerEmail: "",
       });
@@ -149,6 +155,19 @@ const token = session?.session?.token
           required
         />
 
+       <select
+  name="genre"
+  value={form.genre}
+  onChange={handleChange}
+  className="w-full border p-3 rounded-lg"
+  required
+>
+  <option value="">Select Genre</option>
+  <option value="Fiction">Fiction</option>
+  <option value="Sci-Fi">Sci-Fi</option>
+  <option value="Poetry">Poetry</option>
+  <option value="Drama">Drama</option>
+</select>
         
         <div className="border-2 border-dashed border-slate-300 rounded-lg p-4 text-center cursor-pointer hover:border-emerald-500 transition">
           <input
