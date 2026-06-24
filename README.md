@@ -1,36 +1,130 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Ebook Marketplace
 
-## Getting Started
+A full-stack Ebook Marketplace platform where Readers can purchase ebooks and Writers can publish and manage their ebooks. The platform includes role-based authentication, ebook management, sales tracking, wishlist functionality, and secure payment integration.
 
-First, run the development server:
+##  Live Website
 
+https://your-live-site-url.vercel.app
+
+##  Project Purpose
+
+This platform connects readers and writers in a digital ebook marketplace. Readers can discover and purchase ebooks, while writers can publish, manage, and track sales of their ebooks through a dedicated dashboard.
+
+##  Key Features
+
+### Authentication & Authorization
+- Secure user authentication
+- Role-based access control (Admin, Writer, Reader)
+- Protected routes and dashboards
+
+### Reader Features
+- Browse and search ebooks
+- View ebook details
+- Purchase ebooks
+- Wishlist/Bookmark ebooks
+- View purchased books
+- Reading history
+
+### Writer Features
+- Upload and publish ebooks
+- Manage ebooks (edit, delete, update)
+- Track sales history
+- View earnings and sales information
+
+### Admin Features
+- Manage users
+- Change user roles
+- Delete users
+- Monitor platform activities
+
+### Additional Features
+- Loading Skeleton UI
+- Custom 404 Page
+- Error Handling & Toast Notifications
+- Responsive Design
+- Dark Mode Support
+- Secure API Integration
+
+##  Technologies Used
+
+### Frontend
+- Next.js
+- React
+- Tailwind CSS
+- Framer Motion
+- React Icons
+- React Hot Toast
+- Next Themes
+
+### Backend
+
+- Express.js
+- MongoDB
+- JWT Authentication
+
+### Deployment
+- Vercel (Frontend)
+- Render / Railway / Vercel Functions (Backend)
+
+## NPM Packages Used
+
+### Client
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install framer-motion
+npm install react-hot-toast
+npm install react-icons
+
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Server
+```bash
+npm install express
+npm install mongodb
+npm install cors
+npm install dotenv
+npm install jsonwebtoken
+```
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+##  Environment Variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Frontend
 
-## Learn More
+```env
+NEXT_PUBLIC_API_URL=
+NEXT_PUBLIC_STRIPE_KEY=
+```
 
-To learn more about Next.js, take a look at the following resources:
+### Backend
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```env
+DB_USER=
+DB_PASS=
+JWT_SECRET=
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+##  Installation
 
-## Deploy on Vercel
+### Clone Repository
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+git clone https://github.com/mdabgal/fable-ebook-client
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Client Setup
+
+```bash
+cd client
+npm install
+npm run dev
+```
+
+### Server Setup
+
+```bash
+cd server
+npm install
+npm start
+```
+
+## 👨 Author
+
+jannati
