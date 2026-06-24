@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight, BookOpen } from "lucide-react";
+import Image from "next/image";
 
 export default function Hero() {
   return (
@@ -107,11 +108,21 @@ export default function Hero() {
               }}
               className="relative"
             >
-              <img
+              {/* <img
                 src="https://images.unsplash.com/photo-1512820790803-83ca734da794?w=1000"
                 alt="ebook"
                 className="w-full h-[450px] object-cover rounded-3xl shadow-2xl"
-              />
+              /> */}
+
+
+
+<Image
+  src="https://i.ibb.co.com/5ghtMHKR/photo-1524995997946-a1c2e315a42f.avif"
+  alt="ebook"
+  width={1000}
+  height={450}
+  className="w-full h-[450px] object-cover rounded-3xl shadow-2xl"
+/>
 
               {/* Floating Card */}
               <div className="absolute -bottom-5 left-5 bg-white shadow-xl rounded-2xl px-5 py-4">

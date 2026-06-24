@@ -104,7 +104,7 @@ export default function Navbar() {
 
               <button onClick={() => setDropdownOpen(!dropdownOpen)}>
                <Image
-    src={user?.image || "https://i.ibb.co/2tZ5z3K/user.png"}
+    src={user?.image || "https://i.ibb.co.com/VWG6sh99/photo-1541643600914-78b084683601.avif"}
     alt="user"
     height={20}
     width={20}

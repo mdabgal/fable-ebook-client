@@ -8,13 +8,27 @@ import Link from "next/link";
 
 export default function Bookmarks() {
   const { data: session } = authClient.useSession();
-  const user = session?.user;
+
+   const token = session?.session?.token;
   const [bookmarks, setBookmarks] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!user?.email) return;
-    fetch(`http://localhost:5000/bookmarks/${user.email}`)
+    // if (!user?.email) return;
+    // fetch(`http://localhost:5000/bookmarks/${user.email}`)
+if (!session?.user?.email || !token) {
+        setLoading(false);
+        return;
+    }
+
+    fetch(`http://localhost:5000/bookmarks/${session?.user.email}`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`, 
+        'Content-Type': 'application/json'
+      }
+    })
+
       .then((res) => res.json())
       .then((data) => {
         setBookmarks(data);
@@ -24,12 +38,15 @@ export default function Bookmarks() {
         toast.error("Failed to load bookmarks");
         setLoading(false);
       });
-  }, [user?.email]);
+  }, [session?.user?.email]);
 
   const removeBookmark = async (id) => {
     try {
        const res = await fetch(`http://localhost:5000/bookmarks/${id}`, {
         method: "DELETE",
+        headers: {
+            'Authorization': `Bearer ${token}` 
+        }
       });
       if (res.ok) {
         toast.success("Bookmark removed");

@@ -1,4 +1,9 @@
+
+
+
 "use client";
+import { motion } from "framer-motion";
+import { FaBookOpen, FaUser } from "react-icons/fa";
 
 export default function TopWriters() {
   const writers = [
@@ -7,48 +12,67 @@ export default function TopWriters() {
     { id: 3, name: "Alex Roy", books: 8 },
   ];
 
+ 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1, transition: { staggerChildren: 0.2 } },
+  };
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: { y: 0, opacity: 1 },
+  };
+
   return (
-    <section className="py-16 bg-white">
+    <section className="py-16 bg-slate-50">
       <div className="max-w-6xl mx-auto px-4">
-
-        {/* Title */}
-        <h2 className="text-3xl font-bold text-center mb-10">
+      
+        <motion.h2 
+          initial={{ opacity: 0, y: -20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-4xl font-bold text-center mb-12 text-slate-800"
+        >
           Top Writers
-        </h2>
+        </motion.h2>
 
-        {/* Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-
+        
+        <motion.div 
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8"
+        >
           {writers.map((writer) => (
-            <div
+            <motion.div
               key={writer.id}
-              className="bg-slate-50 p-6 rounded-xl text-center shadow hover:shadow-lg transition"
+              variants={itemVariants}
+              whileHover={{ y: -10 }}
+              className="bg-white p-8 rounded-2xl text-center shadow-md hover:shadow-2xl transition-all duration-300 border border-slate-100"
             >
-
-              {/* Avatar */}
-              <div className="w-16 h-16 mx-auto bg-emerald-600 text-white flex items-center justify-center rounded-full text-xl font-bold">
-                {writer.name.charAt(0)}
+              
+              <div className="w-20 h-20 mx-auto bg-emerald-100 text-emerald-600 flex items-center justify-center rounded-full text-3xl font-bold mb-4">
+                <FaUser />
               </div>
 
-              {/* Name */}
-              <h3 className="mt-4 text-lg font-semibold text-slate-800">
+             
+              <h3 className="text-xl font-bold text-slate-800">
                 {writer.name}
               </h3>
 
-              {/* Books */}
-              <p className="text-sm text-slate-500 mt-1">
-                📚 {writer.books} Books
-              </p>
+             
+              <div className="flex items-center justify-center gap-2 text-slate-500 mt-2 mb-6">
+                <FaBookOpen className="text-emerald-500" />
+                <span className="font-medium">{writer.books} Published Books</span>
+              </div>
 
-              <button className="mt-4 px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition">
+              <button className="w-full px-6 py-3 bg-emerald-100 text-emerald-600 rounded-xl font-semibold hover:bg-emerald-150 transition-colors duration-300">
                 View Profile
               </button>
-
-            </div>
+            </motion.div>
           ))}
-
-        </div>
-
+        </motion.div>
       </div>
     </section>
   );

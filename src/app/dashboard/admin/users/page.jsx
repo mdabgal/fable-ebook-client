@@ -3,11 +3,15 @@
 import { useEffect, useState } from "react";
 import { FaUserShield, FaUserEdit, FaTrash, FaSpinner } from "react-icons/fa";
 import toast, { Toaster } from "react-hot-toast"; // npm install react-hot-toast
+import { authClient } from "@/lib/auth-client";
 
 export default function ManageUsersPage() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [actionLoading, setActionLoading] = useState(null); // কোন বাটনে ক্লিক হয়েছে তা ট্র্যাক করার জন্য
+  const [actionLoading, setActionLoading] = useState(null); 
+  const [deleteId, setDeleteId] = useState(null);
+const [deleteLoading, setDeleteLoading] = useState(false);
+
 
   const fetchUsers = async () => {
     try {
@@ -22,17 +26,23 @@ export default function ManageUsersPage() {
   };
 
   useEffect(() => {
-    fetchUsers();
+    fetchUsers(); 
   }, []);
-console.log(users)
+const { data: session } = authClient.useSession();
+  const token = session?.session?.token
+
   const changeRole = async (id, role) => {
     setActionLoading(id);
     try {
-      await fetch(`http://localhost:5000/users/${id}/role`, {
+  const res =  await fetch(`http://localhost:5000/users/${id}/role`, {
         method: "PATCH",
-        headers: { "Content-Type": "application/json" },
+        headers: { 
+          "Content-Type": "application/json", 
+         authorization: `Bearer ${token}`
+        },
         body: JSON.stringify({ role }),
       });
+      console.log(res)
       toast.success(`User role updated to ${role}`);
       fetchUsers();
     } catch (err) {
@@ -41,6 +51,35 @@ console.log(users)
       setActionLoading(null);
     }
   };
+
+
+  const deleteUser = async () => {
+  try {
+    setDeleteLoading(true);
+
+    const res = await fetch(`http://localhost:5000/users/${deleteId}`, {
+      method: "DELETE",
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.message || "Delete failed");
+    }
+
+    toast.success("User deleted successfully ");
+
+    setDeleteId(null);
+    fetchUsers(); // refresh list
+  } catch (error) {
+    toast.error(error.message || "Failed to delete user ");
+  } finally {
+    setDeleteLoading(false);
+  }
+};
 
   if (loading) return <div className="flex justify-center py-20"><FaSpinner className="animate-spin text-4xl text-emerald-500" /></div>;
 
@@ -86,7 +125,8 @@ console.log(users)
                   <td className="px-6 py-4">
                     <div className="flex items-center justify-center gap-2">
                       {["reader", "writer", "admin"].map((role) => (
-                        <button
+
+                      <button
                           key={role}
                           disabled={actionLoading === user._id}
                           onClick={() => changeRole(user._id, role)}
@@ -96,15 +136,67 @@ console.log(users)
                           {role === "writer" && <FaUserEdit />}
                           {role.charAt(0).toUpperCase() + role.slice(1)}
                         </button>
+
                       ))}
+
+                <button
+  onClick={() => setDeleteId(user._id)}
+  className="btn btn-xs text-red-600 ">
+  <FaTrash />
+ 
+</button>
+          
+
                     </div>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
+
+{deleteId && (
+  <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+    
+    <div className="bg-white p-6 rounded-xl shadow-lg w-[320px]">
+
+      <h2 className="text-lg font-bold mb-2">
+        Delete User?
+      </h2>
+
+      <p className="text-sm text-gray-500 mb-6">
+        This action cannot be undone.
+      </p>
+
+      <div className="flex justify-end gap-2">
+
+        <button
+          onClick={() => setDeleteId(null)}
+          className="px-3 py-1 text-sm bg-gray-200 rounded"
+        >
+          Cancel
+        </button>
+
+        <button
+          onClick={deleteUser}
+          disabled={deleteLoading}
+          className="px-3 py-1 text-sm bg-red-500 text-white rounded"
+        >
+          {deleteLoading ? "Deleting..." : "Delete"}
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+)}
+
+
         </div>
       </div>
     </div>
   );
 }
+
+
+

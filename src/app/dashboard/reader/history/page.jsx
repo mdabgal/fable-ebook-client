@@ -17,6 +17,8 @@ export default function HistoryPage() {
       );
 
       const data = await res.json();
+        console.log("Purchase History:", data);
+        
       setHistory(data);
     };
 

@@ -1,16 +1,30 @@
 "use client";
 
+import { authClient } from "@/lib/auth-client";
 import { useEffect, useState } from "react";
 
 export default function TransactionsPage() {
   const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const { data: session } = authClient.useSession();
+
+
+const token = session?.session?.token;
+
   const fetchTransactions = async () => {
+     if (!token) return;
     try {
       setLoading(true);
 
-      const res = await fetch("http://localhost:5000/admin/transactions");
+     const res = await fetch(
+  "http://localhost:5000/admin/transactions",
+  {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }
+);
       const data = await res.json();
 
       setTransactions(data);
@@ -23,7 +37,8 @@ export default function TransactionsPage() {
 
   useEffect(() => {
     fetchTransactions();
-  }, []);
+  }, [token]);
+
 
   if (loading) {
     return <p className="p-6 text-gray-500">Loading transactions...</p>;
@@ -35,7 +50,7 @@ export default function TransactionsPage() {
       {/* HEADER */}
       <div className="mb-6">
         <h1 className="text-3xl font-bold text-gray-800">
-          💰 Transactions
+           Transactions
         </h1>
         <p className="text-gray-500 text-sm">
           All payment and purchase history
