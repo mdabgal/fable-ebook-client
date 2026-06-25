@@ -4,7 +4,8 @@ A full-stack Ebook Marketplace platform where Readers can purchase ebooks and Wr
 
 ##  Live Website
 
-https://your-live-site-url.vercel.app
+ https://fable-ebook-client.vercel.app
+
 
 ##  Project Purpose
 
@@ -36,6 +37,11 @@ This platform connects readers and writers in a digital ebook marketplace. Reade
 - Change user roles
 - Delete users
 - Monitor platform activities
+
+name:AdminOne
+email:adminone1@gmail.com
+pasward:adminone1@gmail.com
+
 
 ### Additional Features
 - Loading Skeleton UI
@@ -125,6 +131,6 @@ npm install
 npm start
 ```
 
-## 👨 Author
+##  Author
 
 jannati
