@@ -113,7 +113,24 @@ const handleGoogleLogin = async () => {
         provider: "google",
         callbackURL: "/", 
       });
+
+ const {data:jwtdata} = await authClient.token();
+
+
+
+const token = jwtdata.token
+console.log(token)
+
+if (token) {
+  localStorage.setItem("token", token);
+  console.log("JWT TOKEN =", token);
+} else {
+  console.log("Token not found");
+}
+
     } catch (err) {
+
+
       toast.error("Google login failed. Please try again.");
     }
   };

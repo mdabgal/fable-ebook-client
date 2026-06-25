@@ -152,7 +152,7 @@ export default function Navbar() {
 
       </nav>
 
-      {menuOpen && (
+      {/* {menuOpen && (
         <div className="md:hidden bg-white border-t p-4 space-y-3">
           <Link href="/">Home</Link>
         <Link 
@@ -177,7 +177,68 @@ export default function Navbar() {
             </button>
           )}
         </div>
+      )} */}
+
+{menuOpen && (
+  <div className="md:hidden bg-white border-t">
+    <div className="flex flex-col gap-4 p-4">
+
+      <Link
+        href="/"
+        onClick={() => setMenuOpen(false)}
+        className="block"
+      >
+        Home
+      </Link>
+
+      <Link
+        href="/ebooks"
+        onClick={() => setMenuOpen(false)}
+        className="block"
+      >
+        Browse Ebooks
+      </Link>
+
+      {user && (
+        <Link
+          href={`/dashboard/${user?.role}`}
+          onClick={() => setMenuOpen(false)}
+          className="block  text-slate-700 hover:text-emerald-600"
+        >
+          Dashboard
+        </Link>
       )}
+
+      {!user ? (
+        <>
+          <Link
+            href="/login"
+            onClick={() => setMenuOpen(false)}
+            className="block text-slate-700 hover:text-emerald-600"
+          >
+            Login
+          </Link>
+
+          <Link
+            href="/register"
+            onClick={() => setMenuOpen(false)}
+            className="block"
+          >
+            Register
+          </Link>
+        </>
+      ) : (
+        <button
+          onClick={handleLogout}
+          className="text-left text-red-600"
+        >
+          Logout
+        </button>
+      )}
+    </div>
+  </div>
+)}
+
     </header>
   );
 }

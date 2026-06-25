@@ -39,8 +39,8 @@ This platform connects readers and writers in a digital ebook marketplace. Reade
 - Monitor platform activities
 
 name:AdminOne
-email:adminone1@gmail.com
-pasward:adminone1@gmail.com
+email:AdminOne1@gmail.com
+pasward:AdminOne1@gmail.com
 
 
 ### Additional Features
