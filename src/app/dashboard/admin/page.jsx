@@ -58,7 +58,7 @@ export default function AdminDashboard() {
     const fetchStats = async () => {
       try {
         const res = await fetch(
-          "http://localhost:5000/admin/stats",
+        `${process.env.NEXT_PUBLIC_API_URL}/admin/stats`,
           {
             headers: {
               authorization: `Bearer ${token}`,

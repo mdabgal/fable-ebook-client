@@ -13,13 +13,14 @@ export default function TransactionsPage() {
 
 const token = session?.session?.token;
 
+
   const fetchTransactions = async () => {
      if (!token) return;
     try {
       setLoading(true);
 
      const res = await fetch(
-  "http://localhost:5000/admin/transactions",
+  `${process.env.NEXT_PUBLIC_API_URL}/admin/transactions`,
   {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -41,9 +42,7 @@ const token = session?.session?.token;
   }, [token]);
 
 
-  // if (loading) {
-  //   return <p className="p-6 text-gray-500">Loading transactions...</p>;
-  // }
+  
 
   return (
     <div className="p-6 bg-gray-50 min-h-screen">

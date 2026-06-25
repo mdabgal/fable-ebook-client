@@ -36,7 +36,7 @@ if (!userSession) {
     const productId = formData.get('productId')
     const writerEmail = formData.get("writerEmail");
    
-     const res = await fetch("http://localhost:5000/purchase", {
+     const res = await fetch( `${process.env.NEXT_PUBLIC_API_URL}/purchase`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -92,75 +92,3 @@ if (!userSession) {
 
 
 
-// import { NextResponse } from "next/server";
-// import { headers } from "next/headers";
-// import { stripe } from "@/lib/stripe";
-// import { auth } from "@/lib/auth";
-
-// export async function POST(request) {
-//   try {
-//     const headersList = await headers();
-//     const origin = headersList.get("origin");
-
-//     const userSession = await auth.api.getSession({
-//       headers: headersList,
-//     });
-
-//     const user = userSession?.user;
-
-//     console.log("USER SESSION =", userSession);
-//     console.log("USER =", user);
-
-  
-//     if (!user) {
-//       return NextResponse.redirect(
-//         new URL("/login", request.url),
-//         302
-//       );
-//     }
-
-//     const formData = await request.formData();
-
-//     const price = formData.get("price");
-//     const title = formData.get("title");
-//     const productId = formData.get("productId");
-//     const writerEmail = formData.get("writerEmail");
-
-
-//     const session = await stripe.checkout.sessions.create({
-//       customer_email: user.email,
-//       line_items: [
-//         {
-//           price_data: {
-//             currency: "usd",
-//             unit_amount: Number(price) * 100,
-//             product_data: {
-//               name: title,
-//             },
-//           },
-//           quantity: 1,
-//         },
-//       ],
-//       metadata: {
-//         price: Number(price),
-//         userId: user.id,
-//         userEmail: user.email,
-//         writerEmail,
-//         title,
-//         productId,
-//       },
-//       mode: "payment",
-//       success_url: `${origin}/pricing/payment-success?session_id={CHECKOUT_SESSION_ID}`,
-//     });
-
-//     return NextResponse.redirect(session.url, 303);
-
-//   } catch (err) {
-//     console.log(err);
-
-//     return NextResponse.json(
-//       { error: err.message },
-//       { status: 500 }
-//     );
-//   }
-// }

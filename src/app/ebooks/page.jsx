@@ -12,7 +12,7 @@ export default function BrowseEbooks() {
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
 
-  // ফিল্টার ও সার্চ স্টেটসমূহ
+ 
   const [search, setSearch] = useState("");
   const [genre, setGenre] = useState("");
   const [sortBy, setSortBy] = useState("newest");
@@ -28,7 +28,7 @@ export default function BrowseEbooks() {
         limit: 6 
       });
 
-      const res = await fetch(`http://localhost:5000/ebooks?${queryParams.toString()}`);
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/ebooks?${queryParams.toString()}`);
       const data = await res.json();
       
       setBooks(data.books || []);
@@ -54,7 +54,7 @@ export default function BrowseEbooks() {
     <div className="min-gradient bg-gradient-to-b from-slate-50 to-slate-100 min-h-screen py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto space-y-10">
         
-        {/* 🌟 হেডার সেকশন উইথ মোশন */}
+      
         <motion.div 
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -69,7 +69,7 @@ export default function BrowseEbooks() {
           </p>
         </motion.div>
 
-        {/* 🔍 ফিল্টারিং এবং সার্চ কন্ট্রোল প্যানেল */}
+       
         <motion.div 
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -151,7 +151,7 @@ export default function BrowseEbooks() {
                   className="group bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between overflow-hidden"
                 >
                   <div className="p-5">
-                    {/* কভার ইমেজ সেকশন */}
+                   
                     <div className="w-full h-56 bg-slate-50 rounded-xl mb-4 overflow-hidden relative shadow-inner border border-slate-100/80">
                       {book.image ? (
                         <img 
@@ -172,13 +172,13 @@ export default function BrowseEbooks() {
                         </div>
                       )}
                       
-                      {/* জেনার ব্যাজ */}
+                     
                       <span className="absolute top-3 left-3 bg-white/90 backdrop-blur-md text-emerald-600 text-xs px-3 py-1.5 rounded-lg font-bold shadow-sm">
                         {book.genre || "General"}
                       </span>
                     </div>
 
-                    {/* বইয়ের ইনফরমেশন */}
+                  
                     <h3 className="font-bold text-xl text-slate-800 line-clamp-1 group-hover:text-emerald-600 transition-colors">
                       {book.title}
                     </h3>
@@ -208,7 +208,7 @@ export default function BrowseEbooks() {
           </motion.div>
         )}
 
-        {/* 📄 পেজিনেশন কন্ট্রোল */}
+    
         {totalPages > 1 && (
           <motion.div 
             initial={{ opacity: 0 }}

@@ -24,7 +24,7 @@ const token = session?.session?.token;
       setLoading(true);
 
      const res = await fetch(
-  "http://localhost:5000/admin/ebooks",
+  `${process.env.NEXT_PUBLIC_API_URL}/admin/ebooks`,
   {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -52,7 +52,9 @@ console.log("ebooks:", ebooks);
 
 
   const updateStatus = async (id, status) => {
-    await fetch(`http://localhost:5000/ebooks/${id}/status`, {
+    await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/ebooks/${id}/status`,
+      {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -65,37 +67,15 @@ console.log("ebooks:", ebooks);
 
 
 
-// const deleteBook = async (id) => {
-//   const ok = confirm("Delete this ebook?");
-//   if (!ok) return;
-
-//   try {
-//     const res = await fetch(`http://localhost:5000/ebooks/${id}`, {
-//       method: "DELETE",
-//       headers: {
-//         authorization: `Bearer ${token}`,
-//       },
-//     });
-
-//     if (!res.ok) {
-//       throw new Error("Delete failed");
-//     }
-
-//     toast.success("Ebook deleted successfully");
-
-//     fetchEbooks();
-//   } catch (error) {
-//     toast.error("Failed to delete ebook");
-//   }
-// };
-
-
 
 const deleteBook = async () => {
   try {
     setDeleteLoading(true);
 
-    const res = await fetch(`http://localhost:5000/ebooks/${deleteId}`, {
+    const res = await fetch(
+       `${process.env.NEXT_PUBLIC_API_URL}/ebooks/${deleteId}`,
+      
+      {
       method: "DELETE",
       headers: {
         authorization: `Bearer ${token}`,
@@ -143,7 +123,7 @@ const deleteBook = async () => {
         </p>
       </div>
 
-      {/* TABLE CARD */}
+    
       <div className="bg-white rounded-2xl shadow border overflow-hidden">
 
         <table className="w-full text-sm">

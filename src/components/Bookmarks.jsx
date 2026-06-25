@@ -14,14 +14,15 @@ export default function Bookmarks() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // if (!user?.email) return;
-    // fetch(`http://localhost:5000/bookmarks/${user.email}`)
+    
 if (!session?.user?.email || !token) {
         setLoading(false);
         return;
     }
 
-    fetch(`http://localhost:5000/bookmarks/${session?.user.email}`, {
+    fetch(
+     `${process.env.NEXT_PUBLIC_API_URL}/bookmarks/${session?.user.email}`,
+       {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${token}`, 
@@ -42,7 +43,9 @@ if (!session?.user?.email || !token) {
 
   const removeBookmark = async (id) => {
     try {
-       const res = await fetch(`http://localhost:5000/bookmarks/${id}`, {
+       const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/bookmarks/${id}`,
+        {
         method: "DELETE",
         headers: {
             'Authorization': `Bearer ${token}` 

@@ -20,6 +20,8 @@ export default function BookmarksPage() {
   
  
   const token = session?.session?.token;
+  console.log("SESSION =", session);
+console.log("TOKEN =", token);
 
   useEffect(() => {
    if (!session?.user?.email || !token) {
@@ -27,8 +29,10 @@ export default function BookmarksPage() {
         return;
     }
 
-    // fetch(`http://localhost:5000/bookmarks/${user.email}`)
-    fetch(`http://localhost:5000/bookmarks/${session?.user.email}`, {
+   
+    fetch(
+       `${process.env.NEXT_PUBLIC_API_URL}/bookmarks/${session?.user.email}`,
+       {
     method: 'GET',
     headers: {
       'Authorization': `Bearer ${token}`, 
@@ -49,7 +53,9 @@ export default function BookmarksPage() {
 
   const removeBookmark = async (id) => {
     try {
-      const res = await fetch(`http://localhost:5000/bookmarks/${id}`, {
+      const res = await fetch(
+       `${process.env.NEXT_PUBLIC_API_URL}/bookmarks/${id}`,
+         {
         method: "DELETE",
           
     headers: {
@@ -109,7 +115,7 @@ export default function BookmarksPage() {
                   <div className="flex gap-2 mt-4">
                     <Link
                       href={`/ebooks/${book.bookId}`}
-                      className="flex-1 flex items-center justify-center  gap-2 bg-emerald-100 text-emerald-600 py-2 rounded-lg hover:bg-blue-700 transition"
+                      className="flex-1 flex items-center justify-center  gap-2 bg-emerald-100 text-emerald-600 py-2 rounded-lg hover:bg-emerald-200 transition"
                     >
                       <FaInfoCircle /> View Details
                     </Link>

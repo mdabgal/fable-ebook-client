@@ -17,21 +17,21 @@ export default function SalesPage() {
         const email =
           session?.user?.email || session?.data?.user?.email;
 
-        console.log("Writer Email:", email); // DEBUG
+        // console.log("Writer Email:", email); // DEBUG
 
         if (!email) return;
 
         const res = await fetch(
-          `http://localhost:5000/writer/sales-history?email=${email}`
+            `${process.env.NEXT_PUBLIC_API_URL}/writer/sales-history?email=${email}`
         );
 
         const data = await res.json();
 
-        console.log("Sales Data:", data); // DEBUG
+        // console.log("Sales Data:", data); // DEBUG
 
         setSales(data);
       } catch (err) {
-        console.error(err);
+        // console.error(err);
       } finally {
         setLoading(false);
       }

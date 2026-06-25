@@ -14,9 +14,9 @@ export const imageUpload = async (image) => {
     );
 
     const data = await res.json();
-    return data?.data?.url; // সরাসরি ইমেজের আসল URL টি রিটার্ন করবে
+    return data?.data?.url; 
   } catch (error) {
-    console.error("ImgBB Upload Error:", error);
+    // console.error("ImgBB Upload Error:", error);
     return null;
   }
 };

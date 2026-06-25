@@ -10,7 +10,7 @@ export default function ProfilePage() {
 
       <h1 className="text-3xl font-bold mb-6">My Profile</h1>
 
-      {/* 🔥 PROFILE IMAGE */}
+    
       <div className="flex justify-center mb-6">
         <img
           src={session?.user?.image || "https://i.ibb.co/2tZ5z3K/user.png"}

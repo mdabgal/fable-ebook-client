@@ -13,7 +13,9 @@ export default function FeaturedEbooks() {
   useEffect(() => {
     const fetchEbooks = async () => {
       try {
-        const res = await fetch("http://localhost:5000/ebooks/featured");
+        const res = await fetch(
+            `${process.env.NEXT_PUBLIC_API_URL}/ebooks/featured`
+        );
         const data = await res.json();
         setEbooks(data);
       } catch (error) {
@@ -70,7 +72,7 @@ export default function FeaturedEbooks() {
                 className="group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl border border-slate-100 transition"
               >
 
-                {/* IMAGE */}
+          
                 <div className="relative h-44 overflow-hidden">
                   <img
                     src={book.image}

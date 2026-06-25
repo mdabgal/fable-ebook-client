@@ -20,7 +20,7 @@ export default function UploadPage() {
     writerEmail: "",
   });
 const { data: session } = authClient.useSession();
-console.log(session)
+// console.log(session)
   const [loading, setLoading] = useState(false);
   const [uploadingImage, setUploadingImage] = useState(false); 
 const token = session?.session?.token
@@ -66,11 +66,13 @@ const token = session?.session?.token
     const toastId = toast.loading("Saving ebook to server...");
 
     try {
-      console.log({
-  ...form,
-  writerEmail: session?.user?.email,
-});
-      const res = await fetch("http://localhost:5000/ebooks", {
+//       console.log({
+//   ...form,
+//   writerEmail: session?.user?.email,
+// });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/ebooks`,
+        {
         method: "POST",
         headers: 
         { 

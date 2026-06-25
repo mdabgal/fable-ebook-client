@@ -12,7 +12,7 @@ export default function Hero() {
 
         <div className="flex flex-col-reverse lg:flex-row items-center gap-12">
 
-          {/* LEFT CONTENT */}
+          
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
@@ -47,7 +47,7 @@ export default function Hero() {
               digital reading experience.
             </motion.p>
 
-            {/* BUTTONS */}
+          
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -108,13 +108,7 @@ export default function Hero() {
               }}
               className="relative"
             >
-              {/* <img
-                src="https://images.unsplash.com/photo-1512820790803-83ca734da794?w=1000"
-                alt="ebook"
-                className="w-full h-[450px] object-cover rounded-3xl shadow-2xl"
-              /> */}
-
-
+          
 
 <Image
   src="https://i.ibb.co.com/5ghtMHKR/photo-1524995997946-a1c2e315a42f.avif"
@@ -124,7 +118,7 @@ export default function Hero() {
   className="w-full h-[450px] object-cover rounded-3xl shadow-2xl"
 />
 
-              {/* Floating Card */}
+          
               <div className="absolute -bottom-5 left-5 bg-white shadow-xl rounded-2xl px-5 py-4">
                 <p className="text-sm text-slate-500">
                   Featured Collection

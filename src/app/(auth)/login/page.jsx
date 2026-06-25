@@ -38,7 +38,7 @@ export default function LoginPage() {
       const session = await authClient.getSession();
       const user = session?.user;
 // console.log(user)
-//       // 🔄 রোল অনুযায়ী ড্যাশবোর্ডে রিডাইরেক্ট
+//   
 //       // if(user){
 //         if (user?.role === "admin") {
 //         router.push("/dashboard/admin");

@@ -32,14 +32,14 @@ export default function ManageBooks() {
   const fetchBooks = async () => {
     try {
       const res = await fetch(
-  `http://localhost:5000/writer/books?email=${user?.email}`
+  `${process.env.NEXT_PUBLIC_API_URL}/writer/books?email=${user?.email}`
 )
       const data = await res.json();
       setBooks(data);
       console.log(data)
     } catch (error) {
     
-      console.error("Error fetching books:", error);
+      // console.error("Error fetching books:", error);
 
       toast.error("Failed to load books!");
     } finally {
@@ -49,7 +49,7 @@ export default function ManageBooks() {
 
 const token = session?.session?.token
 
-console.log(books)
+// console.log(books)
 
 
 useEffect(() => {
@@ -75,11 +75,13 @@ const handleConfirmDelete = async () => {
     const id = selectedBook._id;
     const toastId = toast.loading("Deleting book...");
     
-    // Prothome modal close kora
+  
     setIsDeleteModalOpen(false);
 
     try {
-        const res = await fetch(`http://localhost:5000/ebooks/${id}`, {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/ebooks/${id}`,
+           {
             method: "DELETE",
             headers: {
               authorization: `Bearer ${token}`
@@ -126,7 +128,9 @@ const handleConfirmDelete = async () => {
     const toastId = toast.loading(`Updating status to ${newStatus}...`);
 
     try {
-      const res = await fetch(`http://localhost:5000/ebooks/${id}/status`, {
+      const res = await fetch(
+         `${process.env.NEXT_PUBLIC_API_URL}/ebooks/${id}/status`,
+         {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -155,7 +159,7 @@ setBooks((prevBooks) =>
         toast.error(data.error || "Failed to update status", { id: toastId });
       }
     } catch (error) {
-      console.error("Error updating status:", error);
+      // console.error("Error updating status:", error);
       toast.error("Something went wrong!", { id: toastId });
     }
   };
@@ -177,7 +181,9 @@ setBooks((prevBooks) =>
     const toastId = toast.loading("Updating book...");
 
     try {
-      const res = await fetch(`http://localhost:5000/ebooks/${selectedBook._id}`, {
+      const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/ebooks/${selectedBook._id}`,
+        {
         method: "PUT", 
         headers: {
           "Content-Type": "application/json",

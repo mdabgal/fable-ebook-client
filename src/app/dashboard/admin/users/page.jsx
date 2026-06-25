@@ -16,7 +16,9 @@ const [deleteLoading, setDeleteLoading] = useState(false);
 
   const fetchUsers = async () => {
     try {
-      const res = await fetch("http://localhost:5000/users");
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/users`
+      );
       const data = await res.json();
       setUsers(data);
     } catch (err) {
@@ -35,7 +37,9 @@ const { data: session } = authClient.useSession();
   const changeRole = async (id, role) => {
     setActionLoading(id);
     try {
-  const res =  await fetch(`http://localhost:5000/users/${id}/role`, {
+  const res =  await fetch(
+     `${process.env.NEXT_PUBLIC_API_URL}/users/${id}/role`,
+    {
         method: "PATCH",
         headers: { 
           "Content-Type": "application/json", 
@@ -58,7 +62,9 @@ const { data: session } = authClient.useSession();
   try {
     setDeleteLoading(true);
 
-    const res = await fetch(`http://localhost:5000/users/${deleteId}`, {
+    const res = await fetch(
+     `${process.env.NEXT_PUBLIC_API_URL}/users/${deleteId}`,
+       {
       method: "DELETE",
       headers: {
         authorization: `Bearer ${token}`,

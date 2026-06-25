@@ -20,7 +20,9 @@ export default function EbookDetails() {
 
       setLoading(true);
       try {
-        const res = await fetch(`http://localhost:5000/ebooks/${id}`);
+        const res = await fetch(
+           `${process.env.NEXT_PUBLIC_API_URL}/ebooks/${id}`
+        );
         const data = await res.json();
         setBook(data);
       } catch (error) {
@@ -34,50 +36,7 @@ export default function EbookDetails() {
   }, [id]);
 
   console.log(book)
-  // const handleBuyNow = async () => {
-    
-
-  //   if (!session) {
-  //     toast.error("Please login first");
-
-  //     setTimeout(() => {
-  //       router.push("/login");
-  //     }, 1000);
-  //   return;
-      
-  //   }
-
-
-  //   const token = session?.data?.access_token;
-  //   try {
-  //     // fetch("http://localhost:5000/create-checkout-session",
-  //     const res = await fetch("http://localhost:5000/purchase", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //       body: JSON.stringify({
-  //         bookId: book._id,
-  //         title: book.title,
-  //         price: book.price,
-  //         image: book.image,
-  //         writerEmail: book.writerEmail
-  //       }),
-  //     });
-  //     const data = await res.json();
-  //     if (data.id) {
-  //       window.location.href = data.id;
-  //     } else {
-  //      toast("Payment session sucess");
-  //     }
-  //   } catch (error) {
-  //     console.error("Payment Error:", error);
-  //   } finally {
-  //     setPaymentLoading(false);
-  //   }
-  // };
-
+  
 
 const handleBookmark = async () => {
   const email = session?.user?.email;
@@ -88,7 +47,9 @@ const handleBookmark = async () => {
 }
 
   try {
-    const res = await fetch("http://localhost:5000/bookmarks", {
+    const res = await fetch(
+       `${process.env.NEXT_PUBLIC_API_URL}/bookmarks`,
+       {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -142,7 +103,9 @@ if (!session?.user) {
   const token = session?.data?.access_token;
 
   try {
-    const res = await fetch("http://localhost:5000/purchase", {
+    const res = await fetch(
+       `${process.env.NEXT_PUBLIC_API_URL}/purchase`,
+       {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
