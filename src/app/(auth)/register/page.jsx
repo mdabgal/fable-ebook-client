@@ -66,18 +66,19 @@ const uploadToImgBB = async (file) => {
         role: email === "admin@fable.com" ? "admin" : role,
           image: imageUrl,
       });
-// console.log(data)
+
       if (authError) {
         toast.error(authError.message || "Registration failed");
         setLoading(false);
         return;
       }
 
-    const session = await authClient.getSession();
+    const {data:jwtdata} = await authClient.token();
 
-console.log(session);
 
-const token = session?.data?.session?.token;
+
+const token = jwtdata.token
+// console.log(token)
 
 if (token) {
   localStorage.setItem("token", token);

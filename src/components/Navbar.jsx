@@ -111,9 +111,9 @@ export default function Navbar() {
     className="w-9 h-9 rounded-full object-cover border"
   />
               </button>
-{
+{/* {
   console.log(user)
-}
+} */}
               {dropdownOpen && (
                 <div className="absolute right-0 mt-3 w-64 bg-white shadow-lg rounded-xl">
 

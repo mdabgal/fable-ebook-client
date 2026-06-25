@@ -35,9 +35,24 @@ export default function LoginPage() {
         return;
       }
 
-      const session = await authClient.getSession();
-      const user = session?.user;
-// console.log(user)
+  const {data:jwtdata} = await authClient.token();
+
+
+
+const token = jwtdata.token
+// console.log(token)
+
+if (token) {
+  localStorage.setItem("token", token);
+  console.log("JWT TOKEN =", token);
+} else {
+  console.log("Token not foundlogin");
+}
+
+
+//       const session = await authClient.getSession();
+//       const user = session?.user;
+// // console.log(user)
 //   
 //       // if(user){
 //         if (user?.role === "admin") {
